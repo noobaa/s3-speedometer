@@ -1,3 +1,9 @@
 .git
-build
+/build
+/deploy
 node_modules
+.dockerignore
+.gitignore
+.npmrc
+.nvmrc
+Dockerfile
