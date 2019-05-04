@@ -1,5 +1,5 @@
 {
-  "name": "s3_speedometer",
+  "name": "s3-speedometer",
   "version": "0.1.0",
   "dependencies": {
     "aws-sdk": "2.449.0",

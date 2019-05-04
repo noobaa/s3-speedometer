@@ -7,7 +7,7 @@ import {
 export default class App extends React.Component {
 
     state = {
-        speed_data: []
+        history: []
     };
 
     componentDidMount() {
@@ -17,8 +17,8 @@ export default class App extends React.Component {
     async update() {
         try {
             const res = await fetch('/api/fetch');
-            const speed_data = await res.json();
-            this.setState({ speed_data });
+            const state = await res.json();
+            this.setState(state);
         } catch (err) {
             console.error(err);
         }
@@ -26,49 +26,56 @@ export default class App extends React.Component {
     }
 
     render() {
-        const { speed_data } = this.state;
-        const data = speed_data.map(({ time, bytes }) => ({
-            // time: new Date(time),
-            time,
-            'MB/sec': bytes / 1024 / 1024,
-        }));
-        console.warn(speed_data);
+        const { history, name } = this.state;
+        console.warn(history);
         return (
             <div className="App">
-                <h1>S3 Speedometer</h1>
+                <h1>{name}</h1>
                 <AreaChart
-                    width={500}
-                    height={300}
-                    data={data}
-                    margin={{
-                        top: 5, right: 30, left: 20, bottom: 5,
-                    }}>
+                    width={400}
+                    height={400}
+                    margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                    data={history}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
+                        name='Time'
                         dataKey='time'
                         type='number'
+                        scale='time'
                         domain={['dataMin', 'dataMax']}
-                        ticks={[]}
-                        hide={true}
+                        interval={0}
+                        tickCount={history.length + 1}
+                        tickFormatter={t => new Date(t).getSeconds()}
+                        label={{
+                            value: 'Time (seconds)',
+                            offset: -15,
+                            position: 'insideBottom'
+                        }}
                     />
                     <YAxis
-                        dataKey='MB/sec'
+                        name='mbps'
+                        dataKey='mbps'
                         type='number'
                         domain={[0, dataMax => {
-                            if (dataMax < 30) return 30;
-                            if (dataMax < 100) return 100;
-                            if (dataMax < 300) return 300;
-                            if (dataMax < 1000) return 1000;
-                            return 5000;
+                            if (dataMax < 10) return 10;
+                            return Math.ceil(dataMax / 100) * 100;
                         }]}
+                        interval={0}
+                        tickCount={11}
+                        label={{
+                            value: 'MB / sec',
+                            angle: -90,
+                            offset: 15,
+                            position: 'insideLeft'
+                        }}
                     />
                     <Area
+                        dataKey="mbps"
                         type="monotone"
-                        dataKey="MB/sec"
-                        stroke="#8884d8"
-                        fill="#8884d8"
+                        stroke="#ff00ff"
+                        fill="#ff00ff"
                     />
-                    <Legend />
+                    {false && <Legend />}
                     <Tooltip />
                 </AreaChart>
             </div>
