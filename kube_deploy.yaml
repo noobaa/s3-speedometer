@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-speedometer
+spec:
+  selector:
+    matchLabels:
+      app: s3-speedometer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: s3-speedometer
+    spec:
+      containers:
+      - name: nginx
+        image: noobaa/s3_speedometer
+        resources:
+        ports:
+        - containerPort: 8080
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: s3-credentials
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-credentials
+                key: AWS_SECRET_ACCESS_KEY
+          - name: S3_ENDPOINT
+            value: http://s3.federated-noobaa.svc.cluster.local
+          - name: S3_BUCKET
+            value: first.bucket
+          - name: S3_KEY
+            value: LG_Snowboard.mp4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s3-speedometer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: s3-speedometer
