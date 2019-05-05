@@ -7,7 +7,13 @@ import {
 export default class App extends React.Component {
 
     state = {
-        history: []
+        argv: {},
+        history: [{ 
+            total_bytes: 0, 
+            total_count: 0,
+            total_mbps: 0,
+            total_iops: 0,
+        }],
     };
 
     componentDidMount() {
@@ -26,15 +32,18 @@ export default class App extends React.Component {
     }
 
     render() {
-        const { history, name } = this.state;
-        console.warn(history);
+        console.warn(this.state);
+        const { argv, history } = this.state;
+        const {
+            total_bytes, total_count, total_mbps, total_iops
+        } = history[history.length - 1];
         return (
             <div className="App">
-                <h1>{name}</h1>
+                <h1>{argv.app_name}</h1>
                 <AreaChart
                     width={400}
-                    height={400}
-                    margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                    height={320}
+                    margin={{ top: 20, bottom: 40 }}
                     data={history}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
@@ -78,6 +87,24 @@ export default class App extends React.Component {
                     {false && <Legend />}
                     <Tooltip />
                 </AreaChart>
+                <table cellPadding="1">
+                    <tr>
+                        <th><h3>Total Data Transfer (MB)</h3></th>
+                        <td><h3>{(total_bytes / 1024 / 1024).toFixed(1)}</h3></td>
+                    </tr>
+                    <tr>
+                        <th><h3>Total Reads Completed</h3></th>
+                        <td><h3>{total_count}</h3></td>
+                    </tr>
+                    <tr>
+                        <th><h3>Average Throughput (MB/sec)</h3></th>
+                        <td><h3>{total_mbps.toFixed(1)}</h3></td>
+                    </tr>
+                    <tr>
+                        <th><h3>Average Latency (sec)</h3></th>
+                        <td><h3>{(1 / total_iops).toFixed(1)}</h3></td>
+                    </tr>
+                </table>
             </div>
         );
     }

@@ -1,3 +1,23 @@
 .App {
+  width: 400px;
   padding: 20px;
+  text-align: center;
+
+  >h1 {
+    margin: 10px 0 10px 60px;
+  }
+
+  >table {
+    >tr>th {
+      padding: 0 10px;
+      text-align: left;
+    }
+    >tr>td {
+      padding: 0 10px;
+      text-align: right;
+    }
+    border: 1px solid #666;
+    margin-left: 60px;
+    margin-right: 0;
+  }
 }

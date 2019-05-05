@@ -3,6 +3,7 @@
 /deploy
 node_modules
 .dockerignore
+.env
 .gitignore
 .npmrc
 .nvmrc
