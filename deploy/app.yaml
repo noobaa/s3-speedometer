@@ -27,6 +27,8 @@ spec:
             value: first.bucket
           - name: S3_KEY
             value: LG_Snowboard.mp4
+          - name: S3_CONCUR
+            value: "8"
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:

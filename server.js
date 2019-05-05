@@ -11,7 +11,7 @@ argv.app_name = argv.app_name || process.env.APP_NAME || 'S3 Speedometer';
 argv.endpoint = argv.endpoint || process.env.S3_ENDPOINT;
 argv.bucket = argv.bucket || process.env.S3_BUCKET;
 argv.key = argv.key || process.env.S3_KEY;
-argv.concur = argv.concur || 4;
+argv.concur = argv.concur || process.env.S3_CONCUR || 8;
 console.log(argv);
 
 const s3 = new AWS.S3({
@@ -20,6 +20,8 @@ const s3 = new AWS.S3({
     secretAccessKey: argv.secret_key,
     s3ForcePathStyle: true,
     sslEnabled: false,
+    computeChecksums: false,
+    signatureVersion: 's3',
 });
 
 class Speed {
