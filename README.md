@@ -1,34 +1,16 @@
+# S3 Speedometer
+
 This project is a simple server + react app that calls as many S3 getObject requests as it can and shows real time graph of the speed.
+
 It was used to show a demo of noobaa multicloud with locality optimization.
+
 It is unmaintained but kept for reference.
 
----
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+- `npm install` - Install dependencies to node_modules
+- `node server` - Runs the backend that calls S3 requests and reports it to react app.
+- `npm start` - Runs the react app in development mode at [localhost:3000](http://localhost:3000).
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+(this project was bootstrapped with [create-react-app](https://github.com/facebook/create-react-app))
